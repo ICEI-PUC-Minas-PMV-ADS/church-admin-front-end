@@ -49,20 +49,21 @@ const Dashboard = function () {
 
   function calcTotalBatizados(membros) {
     
-    let total = membros.map(membro => {
-        if(membro.dataBatismoAguas) {
-          return membro.dataBatismoAguas
-        }
-     })
-     console.log(">>>> tem bastismo",total)
+    let total = membros.filter(membro => membro.dataBatismoAguas != "")
      return total.length;
   }
 
   function calcPercentBatizados(totalMembros, totalBatizados) {
       return  {
-        batizados: (totalBatizados / totalMembros) * 100,
-        naoBatizados:  ((totalBatizados / totalMembros) * 100) - 100
+        batizados:  Math.round((totalBatizados / totalMembros) * 100),
+        naoBatizados: converterParaPositivo(Math.round(((totalBatizados / totalMembros) * 100) - 100))
       }
+  }
+
+  function converterParaPositivo(num){
+    if(num < 0) {
+      return num * -1;
+    } 
   }
 
   useEffect(() => {
