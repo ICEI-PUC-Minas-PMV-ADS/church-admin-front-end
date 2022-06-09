@@ -2,7 +2,6 @@ import { Avatar, Box, Card, CardContent, Grid, Typography } from '@mui/material'
 import ApartmentIcon from '@mui/icons-material/Apartment';
 
 export const TotalBatismo = function(props) {
-  console.log(">>>>>>>>>>>> batizados", props.values);
   return  (
     <Card {...props}>
       <CardContent>

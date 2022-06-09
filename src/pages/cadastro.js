@@ -5,6 +5,7 @@ import { Box, Container, OutlinedInput, Grid, TextField, FormControl, RadioGroup
 import { DashboardLayout } from '../components/dashboard-layout';
 import InputMask from "react-input-mask";
 import axios from "axios";
+import { parse } from 'date-fns';
 
 const Cadastro = function () {
     const [loading, setLoading] = useState(true)
@@ -22,19 +23,21 @@ const Cadastro = function () {
         cep: null,
         endereco: null,
         numero: null,
-        complemento: null,
+        complemento: "",
         bairro: null,
         municipio: null,
         batismo: null,
         estado: null,
         igrejaID: null,
         cargoIgreja: null,
-        dataBatismoAguas: null,
+        dataBatismoAguas: "",
         status: true
     });
 
     const handleChange = (event) => {
         const { name, value } = event.target;
+        value = name === "numero" || name === "igrejaID" ? parseInt(value) : value.trim();
+        console.log(value);
         setFormValue((prevState) => {
             return {
                 ...prevState,
@@ -47,7 +50,6 @@ const Cadastro = function () {
         let membro = JSON.parse(await localStorage.getItem("current"))
         if (membro) {
             setFormValue({
-                matricula: membro.matricula,
                 nome: membro.nome,
                 email: membro.email,
                 fone: membro.fone,
@@ -92,24 +94,31 @@ const Cadastro = function () {
             "content-type": "application/problem+json"
         };
 
-        try {
-            if (updateMode) {
-                await axios.put(baseURL_UPDATE, formValue, { headers })
-                    .then(response => { console.log(response.data) });
-                document.location.reload(true)
-                alert('Atualização realizada com sucesso!')
+        const invalid =  Object.values(formValue).includes(null)
 
-            } else {
-                await axios.post(baseURL, formValue, { headers })
-                    .then((response) => { console.log(response.data) });
-                setTimeout(() => setLoading(false), 500)
-                document.location.reload(true)
-                alert('Cadastro realizado com sucesso!')
+        if(!invalid){
+            try {
+                if (updateMode) {
+                    await axios.put(baseURL_UPDATE, formValue, { headers })
+                        .then(response => { console.log(response.data) });
+                    document.location.reload(true)
+                    alert('Atualização realizada com sucesso!')
+    
+                } else {
+                    await axios.post(baseURL, formValue, { headers })
+                        .then((response) => { console.log(response.data) });
+                    setTimeout(() => setLoading(false), 500)
+                    document.location.reload(true)
+                    alert('Cadastro realizado com sucesso!')
+                }
+    
+            } catch (e) {
+                alert('Falha ao gravar no banco de dados')
+                console.log("ERRO: ", e)
+                setLoading(false)
             }
-
-        } catch (e) {
-            alert('Preencha todos os campos.')
-            console.log("ERRO: ", e)
+        } else {
+            alert('Por favor, preencha todos os campos necessários. (*)')
             setLoading(false)
         }
     }
@@ -138,13 +147,14 @@ const Cadastro = function () {
                         }}
                     >
                         <Container maxWidth={false}>
-                            <h1 onClick={() => console.log(">>>>> updateMode: ", updateMode)} style={{ marginBottom: 30 }}>Cadastrar</h1>
+                            <h1 style={{ marginBottom: 30 }}>Cadastrar</h1>
 
                             <Grid container spacing={2} >
                                 <Grid item xs={6} style={{ borderTopColor: "#000000", borderTopStyle: "solid", borderTopWidth: 5 }}>
                                     <h2 style={{ marginBottom: 25 }}>Informações Pessoais</h2>
                                     <TextField
                                         fullWidth
+                                        required
                                         id="outlined-required"
                                         label="Nome Completo"
                                         variant="outlined"
@@ -158,6 +168,7 @@ const Cadastro = function () {
 
                                     <TextField
                                         fullWidth
+                                        required
                                         id="outlined-basic"
                                         label="E-mail"
                                         variant="outlined"
@@ -179,6 +190,7 @@ const Cadastro = function () {
                                         {() =>
                                             <TextField
                                                 fullWidth
+                                                required
                                                 id="outlined-basic"
                                                 label="Telefone"
                                                 variant="outlined"
@@ -193,6 +205,7 @@ const Cadastro = function () {
                                     <TextField
                                         fullWidth
                                         type="date"
+                                        required
                                         InputLabelProps={{ shrink: true }}
                                         id="outlined-basic"
                                         label="Data de Nascimento"
@@ -208,6 +221,7 @@ const Cadastro = function () {
                                         fullWidth
                                         id="outlined-basic"
                                         label="Profissão"
+                                        required
                                         variant="outlined"
                                         style={{ marginBottom: 25 }}
                                         name="profissao"
@@ -218,7 +232,7 @@ const Cadastro = function () {
                                     />
 
                                     <Grid item xs={12} style={{ display: "flex", justifyContent: "space-between", marginBottom: 25 }}>
-                                        <FormControl>
+                                        <FormControl required>
                                             <FormLabel id="demo-radio-buttons-group-label">Sexo</FormLabel>
                                             <RadioGroup
                                                 aria-labelledby="demo-radio-buttons-group-label"
@@ -234,8 +248,9 @@ const Cadastro = function () {
                                         </FormControl>
 
                                         <FormControl style={{ width: '55%' }}>
-                                            <InputLabel id="demo-simple-select-autowidth-label">Status de Batismo</InputLabel>
+                                            <InputLabel id="demo-simple-select-autowidth-label" required>Status de Batismo</InputLabel>
                                             <Select
+                                                InputLabelProps={{ shrink: true }}
                                                 labelId="demo-simple-select-autowidth-label"
                                                 id="demo-simple-select-autowidth"
                                                 value={formValue.batismo}
@@ -253,7 +268,7 @@ const Cadastro = function () {
                                     </Grid>
 
                                     <FormControl fullWidth style={{ marginBottom: 25 }}>
-                                        <InputLabel id="demo-simple-select-label">Estado Civil</InputLabel>
+                                        <InputLabel id="demo-simple-select-label" required>Estado Civil</InputLabel>
                                         <Select
                                             labelId="demo-simple-select-label"
                                             id="demo-simple-select"
@@ -281,6 +296,7 @@ const Cadastro = function () {
                                         {() =>
                                             <TextField
                                                 fullWidth
+                                                required
                                                 id="outlined-basic"
                                                 label="CPF"
                                                 variant="outlined"
@@ -292,7 +308,7 @@ const Cadastro = function () {
                                         }
                                     </InputMask>
 
-                                    <TextField fullWidth id="outlined-basic" label="Naturalidade" variant="outlined" name="naturalidade" onChange={handleChange} value={formValue.naturalidade} error={formValue.naturalidade === ""} helperText={formValue.naturalidade === "" ? "Por favor, preencha este campo." : " "} />
+                                    <TextField required fullWidth id="outlined-basic" label="Naturalidade" variant="outlined" name="naturalidade" onChange={handleChange} value={formValue.naturalidade} error={formValue.naturalidade === ""} helperText={formValue.naturalidade === "" ? "Por favor, preencha este campo." : " "} />
                                 </Grid>
                                 <Grid item xs={6} style={{ borderTopColor: "#000000", borderTopStyle: "solid", borderTopWidth: 5 }}>
                                     <h2 style={{ marginBottom: 25 }}>Localização</h2>
@@ -306,6 +322,7 @@ const Cadastro = function () {
                                     >
                                         {() =>
                                             <TextField
+                                                required
                                                 fullWidth
                                                 id="outlined-basic"
                                                 label="CEP"
@@ -318,7 +335,7 @@ const Cadastro = function () {
                                         }
                                     </InputMask>
 
-                                    <TextField fullWidth id="outlined-basic" label="Endereço" variant="outlined" name="endereco" onChange={handleChange} style={{ marginBottom: 25 }} value={formValue.endereco} error={formValue.endereco === ""} helperText={formValue.endereco === "" ? "Por favor, preencha este campo." : " "} />
+                                    <TextField required fullWidth id="outlined-basic" label="Endereço" variant="outlined" name="endereco" onChange={handleChange} style={{ marginBottom: 25 }} value={formValue.endereco} error={formValue.endereco === ""} helperText={formValue.endereco === "" ? "Por favor, preencha este campo." : " "} />
 
                                     <Grid item xs={12} style={{ display: "flex", justifyContent: "space-between", marginBottom: 25 }}>
                                         <InputMask
@@ -330,6 +347,7 @@ const Cadastro = function () {
                                         >
                                             {() =>
                                                 <TextField
+                                                    required
                                                     fullWidth
                                                     id="outlined-basic"
                                                     label="Número"
@@ -353,12 +371,12 @@ const Cadastro = function () {
                                         />
                                     </Grid>
                                     <Grid item xs={12} style={{ display: "flex", justifyContent: "space-between", marginBottom: 25 }}>
-                                        <TextField id="outlined-basic" label="Bairro" variant="outlined" name="bairro" onChange={handleChange} style={{ width: "48%" }} value={formValue.bairro} error={formValue.bairro === ""} helperText={formValue.bairro === "" ? "Por favor, preencha este campo." : " "} />
-                                        <TextField id="outlined-basic" label="Município" variant="outlined" name="municipio" onChange={handleChange} style={{ width: "48%" }} value={formValue.municipio} error={formValue.municipio === ""} helperText={formValue.municipio === "" ? "Por favor, preencha este campo." : " "} />
+                                        <TextField required id="outlined-basic" label="Bairro" variant="outlined" name="bairro" onChange={handleChange} style={{ width: "48%" }} value={formValue.bairro} error={formValue.bairro === ""} helperText={formValue.bairro === "" ? "Por favor, preencha este campo." : " "} />
+                                        <TextField required id="outlined-basic" label="Município" variant="outlined" name="municipio" onChange={handleChange} style={{ width: "48%" }} value={formValue.municipio} error={formValue.municipio === ""} helperText={formValue.municipio === "" ? "Por favor, preencha este campo." : " "} />
                                     </Grid>
                                     <Grid item xs={12} style={{ display: "flex", justifyContent: "space-between", marginBottom: 25 }}>
                                         <FormControl style={{ width: "48%" }}>
-                                            <InputLabel id="demo-simple-select-label">Estado</InputLabel>
+                                            <InputLabel required id="demo-simple-select-label">Estado</InputLabel>
                                             <Select
                                                 labelId="demo-simple-select-label"
                                                 id="demo-simple-select"
@@ -376,7 +394,7 @@ const Cadastro = function () {
                                         </FormControl>
 
                                         <FormControl style={{ width: "48%" }}>
-                                            <InputLabel id="demo-simple-select-label">Congregação</InputLabel>
+                                            <InputLabel required id="demo-simple-select-label">Congregação</InputLabel>
                                             <Select
                                                 labelId="demo-simple-select-label"
                                                 id="demo-simple-select"
@@ -395,6 +413,7 @@ const Cadastro = function () {
                                     <Grid item xs={12} style={{ borderTopColor: "#000000", borderTopStyle: "solid", borderTopWidth: 5 }}>
                                         <h2 style={{ marginTop: 25, marginBottom: 25 }}>Dados Eclesiásticos</h2>
                                         <TextField
+                                            required
                                             fullWidth
                                             id="outlined-basic"
                                             label="Cargo Ministerial"
@@ -419,8 +438,6 @@ const Cadastro = function () {
                                                 name="dataBatismoAguas"
                                                 onChange={handleChange}
                                                 value={formValue.dataBatismoAguas}
-                                                error={formValue.dataBatismoAguas === ""}
-                                                helperText={formValue.dataBatismoAguas === "" ? "Por favor, preencha este campo." : " "}
                                             />
                                         }
 

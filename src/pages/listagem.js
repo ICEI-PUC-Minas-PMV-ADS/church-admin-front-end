@@ -15,7 +15,6 @@ const Listagem = function () {
   async function getMembros() {
     const baseURL = "https://localhost:5001/v1/ListarMembros"
     await axios.get(baseURL).then((response) => {
-        console.log(response.data)
         setTimeout(() => setMembro(response.data), 300)
       });
     setLoading(false)

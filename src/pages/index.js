@@ -34,7 +34,6 @@ const Dashboard = function () {
           const naoBatizados = totalMembros - totalBatizados
           const percentBatismo = calcPercentBatizados(totalMembros, totalBatizados)
 
-          console.log(membros)
           setBatizados(totalBatizados)
           setNaoBatizados(naoBatizados)
           setPercent(percentBatismo)
@@ -55,13 +54,14 @@ const Dashboard = function () {
           return membro.dataBatismoAguas
         }
      })
+     console.log(">>>> tem bastismo",total)
      return total.length;
   }
 
-  function calcPercentBatizados(totalMembros, TotalBatizados) {
+  function calcPercentBatizados(totalMembros, totalBatizados) {
       return  {
-        batizados: (TotalBatizados / totalMembros) * 100,
-        naoBatizados:  ((TotalBatizados / totalMembros) * 100) - 100
+        batizados: (totalBatizados / totalMembros) * 100,
+        naoBatizados:  ((totalBatizados / totalMembros) * 100) - 100
       }
   }
 
