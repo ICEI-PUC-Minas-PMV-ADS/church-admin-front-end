@@ -1,9 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
 import {
-  Avatar,
   Box,
   Card,
   Checkbox,
@@ -16,15 +14,11 @@ import {
   Typography,
   Button
 } from '@mui/material';
-
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
-import { getInitials } from '../../utils/get-initials';
-
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
@@ -79,7 +73,7 @@ export const CustomerListResultsIgreja = ({ customers, ...rest }) => {
     setPage(newPage);
   };
 
-  async function deleteMembro() {
+  async function deleteIgreja() {
     const baseURL = "https://localhost:44366/v1/DeletarIgreja"
     axios.delete(baseURL, { data: selected }).then(() => document.location.reload(true));
     setSelected({})
@@ -118,11 +112,11 @@ export const CustomerListResultsIgreja = ({ customers, ...rest }) => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Deseja realmente excluir esta igreja?
+            Deseja realmente excluir este igreja?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={deleteMembro}>Sim</Button>
+          <Button onClick={deleteIgreja}>Sim</Button>
           <Button onClick={handleClose} autoFocus>
             Não
           </Button>
@@ -235,7 +229,7 @@ export const CustomerListResultsIgreja = ({ customers, ...rest }) => {
                                 justifyContent: 'center',
                                 alignItems: 'center',
                               }}
-                            href="http://localhost:3000/settings">
+                            href="http://localhost:3000/settingsIgreja">
                               <RemoveRedEyeIcon style={{color: 'white', width: 18}}/>
                             </a>
                       </div>
@@ -259,7 +253,7 @@ export const CustomerListResultsIgreja = ({ customers, ...rest }) => {
                               justifyContent: 'center',
                               alignItems: 'center',
                               }}
-                            href="http://localhost:3000/cadastro">
+                            href="http://localhost:3000/cadastroIgreja">
                             <EditIcon style={{color: 'white', width: 18}} />
                           </a>
                       </div>

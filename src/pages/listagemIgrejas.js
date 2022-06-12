@@ -9,19 +9,19 @@ import { CustomerListResultsIgreja } from 'src/components/customer/customer-list
 
 const ListagemIgrejas = function () {
 
-  const [membros, setMembro] = useState([])
+  const [igrejas, setIgrejas] = useState([])
   const [loading, setLoading] = useState(true)
 
-  async function getMembros() {
+  async function getIgrejas() {
     const baseURL = "https://localhost:44366/v1/ListarIgrejas"
     await axios.get(baseURL).then((response) => {
-        setTimeout(() => setMembro(response.data), 300)
+        setTimeout(() => setIgrejas(response.data), 300)
       });
     setLoading(false)
   }
 
   useEffect(() => {
-    getMembros()
+    getIgrejas()
   }, []); 
 
   return (
@@ -43,7 +43,7 @@ const ListagemIgrejas = function () {
           <Container maxWidth={false}>
             <CustomerListToolbarIgreja />
             <Box sx={{ mt: 3 }}>
-              <CustomerListResultsIgreja customers={membros} />
+              <CustomerListResultsIgreja customers={igrejas} />
             </Box>
           </Container>
         </Box>

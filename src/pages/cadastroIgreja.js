@@ -31,8 +31,8 @@ const CadastroIgreja = function () {
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        value = name === "numero" ? parseInt(value) : value.trim();
-        console.log(value);
+        value = name === "numero" ? parseInt(value) : value;
+        console.log(value)
         setFormValue((prevState) => {
             return {
                 ...prevState,
@@ -94,7 +94,6 @@ const CadastroIgreja = function () {
                         .then(response => { console.log(response.data) });
                     document.location.reload(true)
                     alert('Atualização realizada com sucesso!')
-
                 } else {
                     await axios.post(baseURL, formValue, { headers })
                         .then((response) => { console.log(response.data) });
@@ -108,10 +107,10 @@ const CadastroIgreja = function () {
                 console.log("ERRO: ", e)
                 setLoading(false)
             }
-        } else {
-            alert('Por favor, preencha todos os campos necessários. (*)')
-            setLoading(false)
-        }
+         } else {
+             alert('Por favor, preencha todos os campos necessários. (*)')
+             setLoading(false)
+         }
     }
 
     return (
@@ -150,7 +149,7 @@ const CadastroIgreja = function () {
                                         label="Nome da Igreja"
                                         variant="outlined"
                                         style={{ marginBottom: 25 }}
-                                        name="nome"
+                                        name="nomeIgreja"
                                         value={formValue.nomeIgreja}
                                         onChange={handleChange}
                                         error={formValue.nomeIgreja === ""}
@@ -164,7 +163,7 @@ const CadastroIgreja = function () {
                                         label="Razão Social"
                                         variant="outlined"
                                         style={{ marginBottom: 25 }}
-                                        name="nome"
+                                        name="razaoSocial"
                                         value={formValue.razaoSocial}
                                         onChange={handleChange}
                                         error={formValue.razaoSocial === ""}
@@ -271,7 +270,7 @@ const CadastroIgreja = function () {
                                         label="Data de Cadastro"
                                         variant="outlined"
                                         style={{ marginBottom: 25 }}
-                                        name="cadastro"
+                                        name="dataCadastro"
                                         value={formValue.dataCadastro}
                                         onChange={handleChange}
                                         error={formValue.dataCadastro === ""}
@@ -287,7 +286,7 @@ const CadastroIgreja = function () {
                                         label="Data de Fundação"
                                         variant="outlined"
                                         style={{ marginBottom: 25 }}
-                                        name="fundacao"
+                                        name="dataFundacao"
                                         value={formValue.dataFundacao}
                                         onChange={handleChange}
                                         error={formValue.dataFundacao === ""}
@@ -378,7 +377,7 @@ const CadastroIgreja = function () {
 
                                     <InputMask
                                         mask="9999999999"
-                                        value={formValue.numero}
+                                        value={parseInt(formValue.numero)}
                                         disabled={false}
                                         maskChar=" "
                                         onChange={handleChange}

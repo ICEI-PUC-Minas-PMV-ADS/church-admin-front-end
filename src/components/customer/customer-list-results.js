@@ -80,7 +80,7 @@ export const CustomerListResults = ({ customers, ...rest }) => {
   };
 
   async function deleteMembro() {
-    const baseURL = "https://localhost:5001/v1/DeletarMembro"
+    const baseURL = "https://localhost:44366/v1/DeletarMembro"
     axios.delete(baseURL, { data: selected }).then(() => document.location.reload(true));
     setSelected({})
     setOpen(false);
