@@ -1,27 +1,27 @@
 import Head from 'next/head';
 import { Box, Container, Backdrop, CircularProgress } from '@mui/material';
-import { CustomerListResults } from '../components/customer/customer-list-results';
-import { CustomerListToolbar } from '../components/customer/customer-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
 import { customers } from '../__mocks__/customers';
 import {useEffect, useState} from 'react';
 import axios from "axios";
+import { CustomerListToolbarIgreja } from 'src/components/customer/customer-list-toolbar-igreja';
+import { CustomerListResultsIgreja } from 'src/components/customer/customer-list-results-igreja';
 
-const Listagem = function () {
+const ListagemIgrejas = function () {
 
-  const [membros, setMembro] = useState([])
+  const [igrejas, setIgrejas] = useState([])
   const [loading, setLoading] = useState(true)
 
-  async function getMembros() {
-    const baseURL = "https://localhost:44366/v1/ListarMembros"
+  async function getIgrejas() {
+    const baseURL = "https://localhost:44366/v1/ListarIgrejas"
     await axios.get(baseURL).then((response) => {
-        setTimeout(() => setMembro(response.data), 300)
+        setTimeout(() => setIgrejas(response.data), 300)
       });
     setLoading(false)
   }
 
   useEffect(() => {
-    getMembros()
+    getIgrejas()
   }, []); 
 
   return (
@@ -41,9 +41,9 @@ const Listagem = function () {
           }}
         >
           <Container maxWidth={false}>
-            <CustomerListToolbar />
+            <CustomerListToolbarIgreja />
             <Box sx={{ mt: 3 }}>
-              <CustomerListResults customers={membros} />
+              <CustomerListResultsIgreja customers={igrejas} />
             </Box>
           </Container>
         </Box>
@@ -59,10 +59,10 @@ const Listagem = function () {
     </>
   );
 } 
-Listagem.getLayout = (page) => (
+ListagemIgrejas.getLayout = (page) => (
   <DashboardLayout>
     {page}
   </DashboardLayout>
 );
 
-export default Listagem;
+export default ListagemIgrejas;
