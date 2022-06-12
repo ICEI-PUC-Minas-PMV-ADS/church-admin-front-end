@@ -83,8 +83,8 @@ const Cadastro = function () {
 
     async function save() {
         setLoading(true)
-        const baseURL = "https://localhost:5001/v1/CadastrarMembro"
-        const baseURL_UPDATE = "https://localhost:5001/v1/AtualizarMembro"
+        const baseURL = "https://localhost:44366/v1/CadastrarMembro"
+        const baseURL_UPDATE = "https://localhost:44366/v1/AtualizarMembro"
         const headers = {
             "access-control-allow-credentials": true,
             "access-control-allow-headers": "*",
