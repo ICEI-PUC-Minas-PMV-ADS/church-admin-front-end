@@ -26,7 +26,7 @@ export const CustomerListToolbarIgreja = (props) => (
         sx={{ m: 1 }}
         variant="h4"
       >
-        Lista de membros
+        Lista de igrejas
       </Typography>
       <Box sx={{ m: 1 }}>
         <Button
@@ -44,31 +44,6 @@ export const CustomerListToolbarIgreja = (props) => (
           </Button>
         </a>
       </Box>
-    </Box>
-    <Box sx={{ mt: 3 }}>
-      <Card>
-        <CardContent>
-          <Box sx={{ maxWidth: 500 }}>
-            <TextField
-              fullWidth
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SvgIcon
-                      color="action"
-                      fontSize="small"
-                    >
-                      <SearchIcon />
-                    </SvgIcon>
-                  </InputAdornment>
-                )
-              }}
-              placeholder="Buscar membro"
-              variant="outlined"
-            />
-          </Box>
-        </CardContent>
-      </Card>
     </Box>
   </Box>
 );
