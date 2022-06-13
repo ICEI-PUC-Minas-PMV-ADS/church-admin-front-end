@@ -30,9 +30,19 @@ const items = [
     title: 'Cadastrar'
   },
   {
+    href: '/cadastroIgreja',
+    icon: (<UserAdd fontSize="small" />),
+    title: 'Cadastrar Igreja'
+  },
+  {
     href: '/listagem',
     icon: (<UsersIcon fontSize="small" />),
     title: 'Listar'
+  },
+  {
+    href: '/listagemIgrejas',
+    icon: (<UsersIcon fontSize="small" />),
+    title: 'Listar Igrejas'
   },
   // {
   //   href: '/account',

@@ -1,9 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
 import {
-  Avatar,
   Box,
   Card,
   Checkbox,
@@ -16,22 +14,18 @@ import {
   Typography,
   Button
 } from '@mui/material';
-
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
-import { getInitials } from '../../utils/get-initials';
-
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import axios from "axios";
 
 
-export const CustomerListResults = ({ customers, ...rest }) => {
+export const CustomerListResultsIgreja = ({ customers, ...rest }) => {
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
@@ -43,7 +37,7 @@ export const CustomerListResults = ({ customers, ...rest }) => {
     let newSelectedCustomerIds;
 
     if (event.target.checked) {
-      newSelectedCustomerIds = customers.map((customer) => customer.matricula);
+      newSelectedCustomerIds = customers.map((customer) => customer.id);
     } else {
       newSelectedCustomerIds = [];
     }
@@ -51,12 +45,12 @@ export const CustomerListResults = ({ customers, ...rest }) => {
     setSelectedCustomerIds(newSelectedCustomerIds);
   };
 
-  const handleSelectOne = (event, matricula) => {
-    const selectedIndex = selectedCustomerIds.indexOf(matricula);
+  const handleSelectOne = (event, id) => {
+    const selectedIndex = selectedCustomerIds.indexOf(id);
     let newSelectedCustomerIds = [];
 
     if (selectedIndex === -1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, matricula);
+      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
     } else if (selectedIndex === 0) {
       newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
     } else if (selectedIndex === selectedCustomerIds.length - 1) {
@@ -79,23 +73,23 @@ export const CustomerListResults = ({ customers, ...rest }) => {
     setPage(newPage);
   };
 
-  async function deleteMembro() {
-    const baseURL = "https://localhost:44366/v1/DeletarMembro"
+  async function deleteIgreja() {
+    const baseURL = "https://localhost:44366/v1/DeletarIgreja"
     axios.delete(baseURL, { data: selected }).then(() => document.location.reload(true));
     setSelected({})
     setOpen(false);
   }
 
-  async function editarMembro(membro) {
-    await localStorage.setItem("current", JSON.stringify(membro));
+  async function editarIgreja(igreja) {
+    await localStorage.setItem("current", JSON.stringify(igreja));
   }
 
-  async function verMembro(membro) {
-    await localStorage.setItem("selected", JSON.stringify(membro));
+  async function verIgreja(igreja) {
+    await localStorage.setItem("selected", JSON.stringify(igreja));
   }
 
-  const handleClickOpen = (membro) => {
-    setSelected(membro)
+  const handleClickOpen = (igreja) => {
+    setSelected(igreja)
     setOpen(true);
   };
 
@@ -118,11 +112,11 @@ export const CustomerListResults = ({ customers, ...rest }) => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Deseja realmente excluir este membro?
+            Deseja realmente excluir este igreja?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={deleteMembro}>Sim</Button>
+          <Button onClick={deleteIgreja}>Sim</Button>
           <Button onClick={handleClose} autoFocus>
             Não
           </Button>
@@ -145,7 +139,7 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  Nome
+                  Nome da Igreja
                 </TableCell>
                 <TableCell>
                   E-mail
@@ -165,13 +159,13 @@ export const CustomerListResults = ({ customers, ...rest }) => {
               {customers.map((customer) => (
                 <TableRow
                   hover
-                  key={customer.matricula}
-                  selected={selectedCustomerIds.indexOf(customer.matricula) !== -1}
+                  key={customer.id}
+                  selected={selectedCustomerIds.indexOf(customer.id) !== -1}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
-                      checked={selectedCustomerIds.indexOf(customer.matricula) !== -1}
-                      onChange={(event) => handleSelectOne(event, customer.matricula)}
+                      checked={selectedCustomerIds.indexOf(customer.id) !== -1}
+                      onChange={(event) => handleSelectOne(event, customer.id)}
                       value="true"
                     />
                   </TableCell>
@@ -194,14 +188,14 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                           fontWeight: 'bold',
                         }}>
                         <p style={{fontSize: 16}}>
-                          {customer.nome[0]}
+                          {customer.nomeIgreja[0]}
                         </p>
                       </div>
                       <Typography
                         color="textPrimary"
                         variant="body1"
                       >
-                        {customer.nome}
+                        {customer.nomeIgreja}
                       </Typography>
                     </Box>
                   </TableCell>
@@ -212,7 +206,7 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                     {`${customer.bairro}, ${customer.municipio}, ${customer.estado}`}
                   </TableCell>
                   <TableCell>
-                    {customer.fone}
+                    {customer.fone1}
                   </TableCell>
                   <TableCell>
                     <div style={{display: 'flex'}}>
@@ -227,7 +221,7 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                             borderRadius: 5,
                             marginRight: 10,
                           }}
-                          onClick={() => verMembro(customer)} 
+                          onClick={() => verIgreja(customer)} 
                           >
                             <a
                               style={{
@@ -235,7 +229,7 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                                 justifyContent: 'center',
                                 alignItems: 'center',
                               }}
-                            href="http://localhost:3000/settings">
+                            href="http://localhost:3000/settingsIgreja">
                               <RemoveRedEyeIcon style={{color: 'white', width: 18}}/>
                             </a>
                       </div>
@@ -251,7 +245,7 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                             marginRight: 10,
                             borderRadius: 5
                           }}
-                          onClick={() => editarMembro(customer)}  
+                          onClick={() => editarIgreja(customer)}  
                         >
                           <a 
                              style={{
@@ -259,7 +253,7 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                               justifyContent: 'center',
                               alignItems: 'center',
                               }}
-                            href="http://localhost:3000/cadastro">
+                            href="http://localhost:3000/cadastroIgreja">
                             <EditIcon style={{color: 'white', width: 18}} />
                           </a>
                       </div>
@@ -300,6 +294,6 @@ export const CustomerListResults = ({ customers, ...rest }) => {
   );
 };
 
-CustomerListResults.propTypes = {
+CustomerListResultsIgreja.propTypes = {
   customers: PropTypes.array.isRequired
 };

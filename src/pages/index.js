@@ -24,8 +24,8 @@ const Dashboard = function () {
   const [naoBatizados, setNaoBatizados] = useState("")
 
   async function getData() {
-    const baseURL = "https://localhost:5001/v1/ListarMembros"
-    const urlIgrejas = "https://localhost:5001/v1/ListarIgrejas"
+    const baseURL = "https://localhost:44366/v1/ListarMembros"
+    const urlIgrejas = "https://localhost:44366/v1/ListarIgrejas"
     await axios.get(baseURL).then((response) => {
         setTimeout(() => {
           const data = response.data
@@ -34,7 +34,6 @@ const Dashboard = function () {
           const naoBatizados = totalMembros - totalBatizados
           const percentBatismo = calcPercentBatizados(totalMembros, totalBatizados)
 
-          console.log(membros)
           setBatizados(totalBatizados)
           setNaoBatizados(naoBatizados)
           setPercent(percentBatismo)
@@ -50,19 +49,21 @@ const Dashboard = function () {
 
   function calcTotalBatizados(membros) {
     
-    let total = membros.map(membro => {
-        if(membro.dataBatismoAguas) {
-          return membro.dataBatismoAguas
-        }
-     })
+    let total = membros.filter(membro => membro.dataBatismoAguas != "")
      return total.length;
   }
 
-  function calcPercentBatizados(totalMembros, TotalBatizados) {
+  function calcPercentBatizados(totalMembros, totalBatizados) {
       return  {
-        batizados: (TotalBatizados / totalMembros) * 100,
-        naoBatizados:  ((TotalBatizados / totalMembros) * 100) - 100
+        batizados:  Math.round((totalBatizados / totalMembros) * 100),
+        naoBatizados: converterParaPositivo(Math.round(((totalBatizados / totalMembros) * 100) - 100))
       }
+  }
+
+  function converterParaPositivo(num){
+    if(num < 0) {
+      return num * -1;
+    } 
   }
 
   useEffect(() => {
