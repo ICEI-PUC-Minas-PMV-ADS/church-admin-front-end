@@ -411,9 +411,9 @@ const CadastroIgreja = function () {
 
                                     <Grid item xs={12} style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", flexDirection: "row", marginTop: 120 }}>
                                         {updateMode ?
-                                            <Button onClick={save} variant="contained"> Atualizar </Button>
+                                            <Button onClick={save} variant="contained" size="large"> Atualizar </Button>
                                             :
-                                            <Button onClick={save} variant="contained"> Cadastrar </Button>
+                                            <Button onClick={save} variant="contained" size="large"> Cadastrar </Button>
                                         }
                                     </Grid>
 
