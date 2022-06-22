@@ -45,6 +45,7 @@ const CadastroIgreja = function () {
         let igreja = JSON.parse(await localStorage.getItem("current"))
         if (igreja) {
             setFormValue({
+                id: igreja.id,
                 nomeIgreja: igreja.nomeIgreja,
                 razaoSocial: igreja.razaoSocial,
                 cnpj: igreja.cnpj,
@@ -74,13 +75,13 @@ const CadastroIgreja = function () {
 
     async function save() {
         setLoading(true)
-        const baseURL = "https://localhost:44366/v1/CadastrarIgreja"
-        const baseURL_UPDATE = "https://localhost:44366/v1/AtualizarIgreja"
+        const baseURL = "https://localhost:5001/v1/CadastrarIgreja"
+        const baseURL_UPDATE = "https://localhost:5001/v1/AtualizarIgreja"
         const headers = {
             "access-control-allow-credentials": true,
             "access-control-allow-headers": "*",
             "access-control-allow-methods": "*",
-            "access-control-allow-origin": "https://localhost:44366",
+            "access-control-allow-origin": "https://localhost:5001",
             "access-control-expose-headers": "*",
             "content-type": "application/problem+json"
         };
