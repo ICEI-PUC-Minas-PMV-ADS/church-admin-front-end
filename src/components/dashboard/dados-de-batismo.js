@@ -47,13 +47,13 @@ export const DadosDeBatismo = (props) => {
   const devices = [
     {
       title: 'Batizados',
-      value: props.values.batizados,
+      value: props.values.batizados || 0,
       icon: LaptopMacIcon,
       color: '#3F51B5'
     },
     {
       title: 'Não batizados',
-      value: props.values.naoBatizados,
+      value: props.values.naoBatizados || 0,
       icon: TabletIcon,
       color: '#E53935'
     }

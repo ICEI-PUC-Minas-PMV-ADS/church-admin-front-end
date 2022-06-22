@@ -45,6 +45,7 @@ const CadastroIgreja = function () {
         let igreja = JSON.parse(await localStorage.getItem("current"))
         if (igreja) {
             setFormValue({
+                id: igreja.id,
                 nomeIgreja: igreja.nomeIgreja,
                 razaoSocial: igreja.razaoSocial,
                 cnpj: igreja.cnpj,
@@ -74,13 +75,13 @@ const CadastroIgreja = function () {
 
     async function save() {
         setLoading(true)
-        const baseURL = "https://localhost:44366/v1/CadastrarIgreja"
-        const baseURL_UPDATE = "https://localhost:44366/v1/AtualizarIgreja"
+        const baseURL = "https://localhost:5001/v1/CadastrarIgreja"
+        const baseURL_UPDATE = "https://localhost:5001/v1/AtualizarIgreja"
         const headers = {
             "access-control-allow-credentials": true,
             "access-control-allow-headers": "*",
             "access-control-allow-methods": "*",
-            "access-control-allow-origin": "https://localhost:44366",
+            "access-control-allow-origin": "https://localhost:5001",
             "access-control-expose-headers": "*",
             "content-type": "application/problem+json"
         };
@@ -107,10 +108,10 @@ const CadastroIgreja = function () {
                 console.log("ERRO: ", e)
                 setLoading(false)
             }
-         } else {
-             alert('Por favor, preencha todos os campos necessários. (*)')
-             setLoading(false)
-         }
+        } else {
+            alert('Por favor, preencha todos os campos necessários. (*)')
+            setLoading(false)
+        }
     }
 
     return (
@@ -408,8 +409,12 @@ const CadastroIgreja = function () {
                                         onChange={handleChange}
                                     />
 
-                                    <Grid item xs={12} style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", flexDirection: "row", marginTop: 20 }}>
-                                        <Button onClick={save} variant="contained"> Cadastrar </Button>
+                                    <Grid item xs={12} style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", flexDirection: "row", marginTop: 120 }}>
+                                        {updateMode ?
+                                            <Button onClick={save} variant="contained" size="large"> Atualizar </Button>
+                                            :
+                                            <Button onClick={save} variant="contained" size="large"> Cadastrar </Button>
+                                        }
                                     </Grid>
 
                                 </Grid>

@@ -74,8 +74,8 @@ export const CustomerListResultsIgreja = ({ customers, ...rest }) => {
   };
 
   async function deleteIgreja() {
-    const baseURL = "https://localhost:44366/v1/DeletarIgreja"
-    axios.delete(baseURL, { data: selected }).then(() => document.location.reload(true));
+    const baseURL = `https://localhost:5001/v1/DeletarIgreja/${selected.id}`
+    axios.delete(baseURL).then(() => document.location.reload(true));
     setSelected({})
     setOpen(false);
   }
