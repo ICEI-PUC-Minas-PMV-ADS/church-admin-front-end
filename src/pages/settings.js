@@ -4,6 +4,7 @@ import { DashboardLayout } from '../components/dashboard-layout';
 import { SettingsNotifications } from '../components/settings/settings-notifications';
 import { SettingsPassword } from '../components/settings/settings-password';
 import {useEffect, useState} from 'react';
+import axios from "axios";
 
 const data = {
   "matricula": 23,
@@ -32,11 +33,17 @@ const data = {
 const Settings = () => {
   const [userData, setUserData] = useState({})
   const [loading, setLoading] = useState(true)
+  const [igrejas, setIgrejas] = useState({})
 
   async function getStorageInformations() {
-   let membro = JSON.parse(await localStorage.getItem("selected"))
-  //  JSON.parse(await localStorage.getItem("current"))
+  const urlIgrejas = "https://localhost:5001/v1/ListarIgrejas"
+  await axios.get(urlIgrejas).then((response) => {
+      setIgrejas(response.data)
+  });
+  let membro = JSON.parse(await localStorage.getItem("selected"))
+
   setUserData({
+    matricula: membro.matricula,
     nome: membro.nome,
     email: membro.email,
     fone: membro.fone,
@@ -52,14 +59,15 @@ const Settings = () => {
     complemento: membro.complemento,
     bairro: membro.bairro,
     municipio: membro.municipio,
-    batismo: membro.batismo,
+    batismo: membro.dataBatismoAguas ? "sim" : "nao" ,
     estado: membro.estado,
     igrejaID: membro.igrejaID,
     cargoIgreja: membro.cargoIgreja,
     dataBatismoAguas: membro.dataBatismoAguas,
-    })
-    setTimeout(() => setLoading(false), 500)
-  }
+    status: membro.status
+  })
+  setTimeout(() => setLoading(false), 500)
+}
 
 useEffect(() => {
     getStorageInformations()
@@ -175,7 +183,7 @@ useEffect(() => {
                         variant="outlined" 
                         style={{marginBottom: 25}}
                         name="batismo"
-                        value={userData.dataBatismoAguas ? "Batizado" : "Não Batizado"}
+                        value={userData.batismo ? "Batizado" : "Não Batizado"}
                       />
                       <TextField 
                         fullWidth
@@ -235,7 +243,7 @@ useEffect(() => {
                               </Grid>
                               <Grid item xs={12} style={{display: "flex", justifyContent: "space-between", marginBottom: 25}}>
                                   <TextField id="outlined-basic" label="Estado" variant="outlined" name="estado" style={{width: "48%"}} value={userData.estado || ""} />
-                                  <TextField id="outlined-basic" label="Congregação" variant="outlined" name="igrejaID" style={{width: "48%"}} value={"Filial"} />
+                                  <TextField id="outlined-basic" label="Congregação" variant="outlined" name="igrejaID" style={{width: "48%"}} value={igrejas.find(igreja => igreja.id === userData.igrejaID).nomeIgreja} />
                               </Grid>
 
                               <Grid item xs={12} style={{borderTopColor: "#000000", borderTopStyle: "solid", borderTopWidth: 5}}>

@@ -17,6 +17,8 @@ import { XCircle as XCircleIcon } from '../icons/x-circle';
 import { Logo } from './logo';
 import { logov2 } from './logov2';
 import { NavItem } from './nav-item';
+import DomainAddIcon from '@mui/icons-material/DomainAdd';
+import ApartmentIcon from '@mui/icons-material/Apartment';
 
 const items = [
   {
@@ -27,21 +29,21 @@ const items = [
   {
     href: '/cadastro',
     icon: (<UserAdd fontSize="small" />),
-    title: 'Cadastrar'
-  },
-  {
-    href: '/cadastroIgreja',
-    icon: (<UserAdd fontSize="small" />),
-    title: 'Cadastrar Igreja'
+    title: 'Cadastrar Membro'
   },
   {
     href: '/listagem',
     icon: (<UsersIcon fontSize="small" />),
-    title: 'Listar'
+    title: 'Listar Membro'
+  },
+  {
+    href: '/cadastroIgreja',
+    icon: (<DomainAddIcon fontSize="small" />),
+    title: 'Cadastrar Igreja'
   },
   {
     href: '/listagemIgrejas',
-    icon: (<UsersIcon fontSize="small" />),
+    icon: (<ApartmentIcon fontSize="small" />),
     title: 'Listar Igrejas'
   },
   // {

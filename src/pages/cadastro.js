@@ -10,6 +10,7 @@ import { parse } from 'date-fns';
 const Cadastro = function () {
     const [loading, setLoading] = useState(true)
     const [updateMode, setUpdateMode] = useState(false)
+    const [igrejas, setIgrejas] = useState({})
     const [formValue, setFormValue] = useState({
         nome: null,
         email: null,
@@ -36,7 +37,7 @@ const Cadastro = function () {
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        value = name === "numero" || name === "igrejaID" ? parseInt(value) : value.trim();
+        value = name === "numero" || name === "igrejaID" ? parseInt(value) : value;
         console.log(value);
         setFormValue((prevState) => {
             return {
@@ -47,9 +48,15 @@ const Cadastro = function () {
     };
 
     async function getStorageInformations() {
+        const urlIgrejas = "https://localhost:5001/v1/ListarIgrejas"
+        await axios.get(urlIgrejas).then((response) => {
+            setIgrejas(response.data)
+          });
+
         let membro = JSON.parse(await localStorage.getItem("current"))
         if (membro) {
             setFormValue({
+                matricula: membro.matricula,
                 nome: membro.nome,
                 email: membro.email,
                 fone: membro.fone,
@@ -65,11 +72,12 @@ const Cadastro = function () {
                 complemento: membro.complemento,
                 bairro: membro.bairro,
                 municipio: membro.municipio,
-                batismo: membro.batismo,
+                batismo: membro.dataBatismoAguas ? "sim" : "nao" ,
                 estado: membro.estado,
                 igrejaID: membro.igrejaID,
                 cargoIgreja: membro.cargoIgreja,
                 dataBatismoAguas: membro.dataBatismoAguas,
+                status: membro.status
             })
             setUpdateMode(true)
             localStorage.removeItem("current");
@@ -83,20 +91,21 @@ const Cadastro = function () {
 
     async function save() {
         setLoading(true)
-        const baseURL = "https://localhost:44366/v1/CadastrarMembro"
-        const baseURL_UPDATE = "https://localhost:44366/v1/AtualizarMembro"
+        const baseURL = "https://localhost:5001/v1/CadastrarMembro"
+        const baseURL_UPDATE = "https://localhost:5001/v1/AtualizarMembro"
         const headers = {
             "access-control-allow-credentials": true,
             "access-control-allow-headers": "*",
             "access-control-allow-methods": "*",
-            "access-control-allow-origin": "https://localhost:44366",
+            "access-control-allow-origin": "https://localhost:5001",
             "access-control-expose-headers": "*",
             "content-type": "application/problem+json"
         };
 
         const invalid =  Object.values(formValue).includes(null)
-
+        console.log(">>>>>>>>>>>>>> invalid", invalid)
         if(!invalid){
+            console.log(">>>>>>>>>>>>>> não caiu no invalid", invalid)
             try {
                 if (updateMode) {
                     await axios.put(baseURL_UPDATE, formValue, { headers })
@@ -113,6 +122,7 @@ const Cadastro = function () {
                 }
     
             } catch (e) {
+                console.log(">>>>>>>>>>>>>> caiu no invalid", invalid)
                 alert('Falha ao gravar no banco de dados')
                 console.log("ERRO: ", e)
                 setLoading(false)
@@ -337,7 +347,7 @@ const Cadastro = function () {
 
                                     <TextField required fullWidth id="outlined-basic" label="Endereço" variant="outlined" name="endereco" onChange={handleChange} style={{ marginBottom: 25 }} value={formValue.endereco} error={formValue.endereco === ""} helperText={formValue.endereco === "" ? "Por favor, preencha este campo." : " "} />
 
-                                    <Grid item xs={12} style={{ display: "flex", justifyContent: "space-between", marginBottom: 25 }}>
+                                    <Grid item xs={12} style={{ display: "flex", justifyContent: "space-between" }}>
                                         <InputMask
                                             mask="9999999999"
                                             value={formValue.numero}
@@ -352,7 +362,7 @@ const Cadastro = function () {
                                                     id="outlined-basic"
                                                     label="Número"
                                                     variant="outlined"
-                                                    style={{ marginBottom: 25 }}
+                                                    style={{ marginBottom: 25, width: 375 }}
                                                     name="numero"
                                                     error={formValue.numero === ""}
                                                     helperText={formValue.numero === "" ? "Por favor, preencha este campo." : " "}
@@ -405,8 +415,11 @@ const Cadastro = function () {
                                                 onChange={handleChange}
                                                 error={formValue.igrejaID === ""}
                                             >
-                                                <MenuItem value={2}>Matriz</MenuItem>
-                                                <MenuItem value={2}>Filial</MenuItem>
+                                                {igrejas.map(igreja => {
+                                                    return(
+                                                        <MenuItem value={igreja.id}>{igreja.nomeIgreja}</MenuItem>
+                                                    )
+                                                })}
                                             </Select>
                                         </FormControl>
                                     </Grid>
@@ -442,7 +455,11 @@ const Cadastro = function () {
                                         }
 
                                         <Grid item xs={12} style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", flexDirection: "row", marginTop: 20 }}>
-                                            <Button onClick={save} variant="contained"> Cadastrar </Button>
+                                        {updateMode ?
+                                            <Button onClick={save} variant="contained" size="large"> Atualizar </Button>
+                                            :
+                                            <Button onClick={save} variant="contained" size="large"> Cadastrar </Button>
+                                        }
                                         </Grid>
                                     </Grid>
                                 </Grid>
