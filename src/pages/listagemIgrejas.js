@@ -13,7 +13,7 @@ const ListagemIgrejas = function () {
   const [loading, setLoading] = useState(true)
 
   async function getIgrejas() {
-    const baseURL = "https://localhost:44366/v1/ListarIgrejas"
+    const baseURL = "https://localhost:5001/v1/ListarIgrejas"
     await axios.get(baseURL).then((response) => {
         setTimeout(() => setIgrejas(response.data), 300)
       });

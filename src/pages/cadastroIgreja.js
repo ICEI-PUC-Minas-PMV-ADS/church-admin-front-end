@@ -108,10 +108,10 @@ const CadastroIgreja = function () {
                 console.log("ERRO: ", e)
                 setLoading(false)
             }
-         } else {
-             alert('Por favor, preencha todos os campos necessários. (*)')
-             setLoading(false)
-         }
+        } else {
+            alert('Por favor, preencha todos os campos necessários. (*)')
+            setLoading(false)
+        }
     }
 
     return (
@@ -409,8 +409,12 @@ const CadastroIgreja = function () {
                                         onChange={handleChange}
                                     />
 
-                                    <Grid item xs={12} style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", flexDirection: "row", marginTop: 20 }}>
-                                        <Button onClick={save} variant="contained"> Cadastrar </Button>
+                                    <Grid item xs={12} style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", flexDirection: "row", marginTop: 120 }}>
+                                        {updateMode ?
+                                            <Button onClick={save} variant="contained"> Atualizar </Button>
+                                            :
+                                            <Button onClick={save} variant="contained"> Cadastrar </Button>
+                                        }
                                     </Grid>
 
                                 </Grid>
