@@ -32,7 +32,6 @@ const SettingsIgreja = () => {
 
   useEffect(() => {
     getStorageInformations()
-    console.log('teste >>>>>>', userData)
   }, []);
 
   return (

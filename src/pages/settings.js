@@ -41,7 +41,7 @@ const Settings = () => {
       setIgrejas(response.data)
   });
   let membro = JSON.parse(await localStorage.getItem("selected"))
-
+  console.log("membro", membro.dataBatismoAguas !== "" ? "Batizado" : "Não batizado")
   setUserData({
     matricula: membro.matricula,
     nome: membro.nome,
@@ -59,7 +59,7 @@ const Settings = () => {
     complemento: membro.complemento,
     bairro: membro.bairro,
     municipio: membro.municipio,
-    batismo: membro.dataBatismoAguas ? "sim" : "nao" ,
+    batismo: membro.dataBatismoAguas !== "" ? "sim" : "nao" ,
     estado: membro.estado,
     igrejaID: membro.igrejaID,
     cargoIgreja: membro.cargoIgreja,
@@ -183,7 +183,7 @@ useEffect(() => {
                         variant="outlined" 
                         style={{marginBottom: 25}}
                         name="batismo"
-                        value={userData.batismo ? "Batizado" : "Não Batizado"}
+                        value={userData.dataBatismoAguas !== "" ? "Batizado" : "Não Batizado"}
                       />
                       <TextField 
                         fullWidth
@@ -249,7 +249,10 @@ useEffect(() => {
                               <Grid item xs={12} style={{borderTopColor: "#000000", borderTopStyle: "solid", borderTopWidth: 5}}>
                                 <h2 style={{marginTop: 25, marginBottom: 25}}>Dados Eclesiásticos</h2>
                                 <TextField fullWidth id="outlined-basic" label="Cargo Ministerial" variant="outlined" name="cargoIgreja" style={{marginBottom: 25}} value={userData.cargoIgreja || ""}/>
-                                <TextField fullWidth id="outlined-basic" label="Data de Batismo" variant="outlined" name="dataBatismoAguas" value={userData.dataBatismoAguas || ""}/>
+
+                                {userData.batismo === "sim" && (
+                                   <TextField fullWidth id="outlined-basic" label="Data de Batismo" variant="outlined" name="dataBatismoAguas" value={userData.dataBatismoAguas || ""}/>
+                                )}
                               </Grid> 
                   </Grid>
               </Grid>

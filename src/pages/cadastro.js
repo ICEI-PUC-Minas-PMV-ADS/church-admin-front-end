@@ -54,6 +54,7 @@ const Cadastro = function () {
           });
 
         let membro = JSON.parse(await localStorage.getItem("current"))
+    
         if (membro) {
             setFormValue({
                 matricula: membro.matricula,
@@ -76,7 +77,7 @@ const Cadastro = function () {
                 estado: membro.estado,
                 igrejaID: membro.igrejaID,
                 cargoIgreja: membro.cargoIgreja,
-                dataBatismoAguas: membro.dataBatismoAguas,
+                dataBatismoAguas: membro.batismo === "sim" ? membro.dataBatismoAguas : "",
                 status: membro.status
             })
             setUpdateMode(true)
@@ -103,11 +104,11 @@ const Cadastro = function () {
         };
 
         const invalid =  Object.values(formValue).includes(null)
-        console.log(">>>>>>>>>>>>>> invalid", invalid)
+
         if(!invalid){
-            console.log(">>>>>>>>>>>>>> não caiu no invalid", invalid)
             try {
                 if (updateMode) {
+                    console.log(">>>>>>> formValue", formValue)
                     await axios.put(baseURL_UPDATE, formValue, { headers })
                         .then(response => { console.log(response.data) });
                     document.location.reload(true)
@@ -122,7 +123,6 @@ const Cadastro = function () {
                 }
     
             } catch (e) {
-                console.log(">>>>>>>>>>>>>> caiu no invalid", invalid)
                 alert('Falha ao gravar no banco de dados')
                 console.log("ERRO: ", e)
                 setLoading(false)
