@@ -10,40 +10,52 @@ import {
 import { Search as SearchIcon } from '../../icons/search';
 import { Upload as UploadIcon } from '../../icons/upload';
 import { Download as DownloadIcon } from '../../icons/download';
+import axios from "axios";
 
-export const CustomerListToolbar = (props) => (
-  <Box {...props}>
-    <Box
-      sx={{
-        alignItems: 'center',
-        display: 'flex',
-        justifyContent: 'space-between',
-        flexWrap: 'wrap',
-        m: -1
-      }}
-    >
-      <Typography
-        sx={{ m: 1 }}
-        variant="h4"
+export const CustomerListToolbar = function (props) {
+
+  async function exportPdf() {
+    const baseURL = "https://localhost:5001/v1/GerarPdf"
+    await axios.get(baseURL).then((response) => console.log(response));
+  }
+
+  return (
+    <Box {...props}>
+      <Box
+        sx={{
+          alignItems: 'center',
+          display: 'flex',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          m: -1
+        }}
       >
-        Lista de membros
-      </Typography>
-      <Box sx={{ m: 1 }}>
-        <Button
-          startIcon={(<DownloadIcon fontSize="small" />)}
-          sx={{ mr: 1 }}
+        <Typography
+          sx={{ m: 1 }}
+          variant="h4"
         >
-          Export
-        </Button>
-        <a href="http://localhost:3000/cadastro">
-          <Button
-            color="primary"
-            variant="contained"
-          >
-            Adicionar
-          </Button>
-        </a>
+          Lista de membros
+        </Typography>
+        <Box sx={{ m: 1 }}>
+          <a href='https://localhost:5001/v1/GerarPdf' target="_blank" style={{textDecoration: "none"}}>
+            <Button
+              startIcon={(<DownloadIcon fontSize="small" />)}
+              sx={{ mr: 1 }}
+            >
+              Exportar
+            </Button>
+          </a>
+         
+          <a href="http://localhost:3000/cadastro">
+            <Button
+              color="primary"
+              variant="contained"
+            >
+              Adicionar
+            </Button>
+          </a>
+        </Box>
       </Box>
     </Box>
-  </Box>
-);
+  );  
+} 
