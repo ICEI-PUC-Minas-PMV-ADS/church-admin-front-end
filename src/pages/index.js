@@ -24,8 +24,8 @@ const Dashboard = function () {
   const [naoBatizados, setNaoBatizados] = useState("")
 
   async function getData() {
-    const baseURL = "https://localhost:5001/v1/ListarMembros"
-    const urlIgrejas = "https://localhost:5001/v1/ListarIgrejas"
+    const baseURL = "http://5.161.71.7:8000/v1/ListarMembros"
+    const urlIgrejas = "http://5.161.71.7:8000/v1/ListarIgrejas"
     await axios.get(baseURL).then((response) => {
         setTimeout(() => {
           const data = response.data
