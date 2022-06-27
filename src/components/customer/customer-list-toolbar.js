@@ -15,7 +15,7 @@ import axios from "axios";
 export const CustomerListToolbar = function (props) {
 
   async function exportPdf() {
-    const baseURL = "https://church-admin-puc.azurewebsites.net/v1/GerarPdf"
+    const baseURL = "https://5.161.71.7:8000/v1/GerarPdf"
     await axios.get(baseURL).then((response) => console.log(response));
   }
 
@@ -37,7 +37,7 @@ export const CustomerListToolbar = function (props) {
           Lista de membros
         </Typography>
         <Box sx={{ m: 1 }}>
-          <a href='https://church-admin-puc.azurewebsites.net/v1/GerarPdf' target="_blank" style={{textDecoration: "none"}}>
+          <a href='https://5.161.71.7:8000/v1/GerarPdf' target="_blank" style={{textDecoration: "none"}}>
             <Button
               startIcon={(<DownloadIcon fontSize="small" />)}
               sx={{ mr: 1 }}

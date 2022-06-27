@@ -75,13 +75,13 @@ const CadastroIgreja = function () {
 
     async function save() {
         setLoading(true)
-        const baseURL = "https://church-admin-puc.azurewebsites.net/v1/CadastrarIgreja"
-        const baseURL_UPDATE = "https://church-admin-puc.azurewebsites.net/v1/AtualizarIgreja"
+        const baseURL = "https://5.161.71.7:8000/v1/CadastrarIgreja"
+        const baseURL_UPDATE = "https://5.161.71.7:8000/v1/AtualizarIgreja"
         const headers = {
             "access-control-allow-credentials": true,
             "access-control-allow-headers": "*",
             "access-control-allow-methods": "*",
-            "access-control-allow-origin": "https://church-admin-puc.azurewebsites.net",
+            "access-control-allow-origin": "https://5.161.71.7:8000",
             "access-control-expose-headers": "*",
             "content-type": "application/problem+json"
         };
