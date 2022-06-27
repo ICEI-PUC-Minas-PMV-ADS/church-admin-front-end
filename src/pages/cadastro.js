@@ -48,7 +48,7 @@ const Cadastro = function () {
     };
 
     async function getStorageInformations() {
-        const urlIgrejas = "http://5.161.71.7:8000/v1/ListarIgrejas"
+        const urlIgrejas = "https://church-admin-puc.azurewebsites.net/v1/ListarIgrejas"
         await axios.get(urlIgrejas).then((response) => {
             setIgrejas(response.data)
           });
@@ -92,13 +92,13 @@ const Cadastro = function () {
 
     async function save() {
         setLoading(true)
-        const baseURL = "http://5.161.71.7:8000/v1/CadastrarMembro"
-        const baseURL_UPDATE = "http://5.161.71.7:8000/v1/AtualizarMembro"
+        const baseURL = "https://church-admin-puc.azurewebsites.net/v1/CadastrarMembro"
+        const baseURL_UPDATE = "https://church-admin-puc.azurewebsites.net/v1/AtualizarMembro"
         const headers = {
             "access-control-allow-credentials": true,
             "access-control-allow-headers": "*",
             "access-control-allow-methods": "*",
-            "access-control-allow-origin": "http://5.161.71.7:8000",
+            "access-control-allow-origin": "https://church-admin-puc.azurewebsites.net",
             "access-control-expose-headers": "*",
             "content-type": "application/problem+json"
         };

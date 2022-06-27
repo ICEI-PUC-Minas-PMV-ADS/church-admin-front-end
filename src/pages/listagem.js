@@ -13,7 +13,7 @@ const Listagem = function () {
   const [loading, setLoading] = useState(true)
 
   async function getMembros() {
-    const baseURL = "http://5.161.71.7:8000/v1/ListarMembros"
+    const baseURL = "https://church-admin-puc.azurewebsites.net/v1/ListarMembros"
     await axios.get(baseURL).then((response) => {
         setTimeout(() => setMembro(response.data), 300)
       });

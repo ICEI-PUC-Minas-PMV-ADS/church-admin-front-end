@@ -36,7 +36,7 @@ const Settings = () => {
   const [igrejas, setIgrejas] = useState({})
 
   async function getStorageInformations() {
-  const urlIgrejas = "https://localhost:5001/v1/ListarIgrejas"
+  const urlIgrejas = "https://church-admin-puc.azurewebsites.net/v1/ListarIgrejas"
   await axios.get(urlIgrejas).then((response) => {
       setIgrejas(response.data)
   });
