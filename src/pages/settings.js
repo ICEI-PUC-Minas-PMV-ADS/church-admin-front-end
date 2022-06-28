@@ -36,7 +36,7 @@ const Settings = () => {
   const [igrejas, setIgrejas] = useState({})
 
   async function getStorageInformations() {
-  const urlIgrejas = "https://5.161.71.7:8000/v1/ListarIgrejas"
+  const urlIgrejas = "http://5.161.71.7:8000/v1/ListarIgrejas"
   await axios.get(urlIgrejas).then((response) => {
       setIgrejas(response.data)
   });

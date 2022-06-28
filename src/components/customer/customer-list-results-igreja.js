@@ -74,7 +74,7 @@ export const CustomerListResultsIgreja = ({ customers, ...rest }) => {
   };
 
   async function deleteIgreja() {
-    const baseURL = `https://5.161.71.7:8000/v1/DeletarIgreja/${selected.id}`
+    const baseURL = `http://5.161.71.7:8000/v1/DeletarIgreja/${selected.id}`
     axios.delete(baseURL).then(() => document.location.reload(true));
     setSelected({})
     setOpen(false);
