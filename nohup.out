@@ -1,0 +1,11 @@
+yarn run v1.22.19
+$ next
+ready - started server on 0.0.0.0:3000, url: http://localhost:3000
+Browserslist: caniuse-lite is outdated. Please run:
+npx browserslist@latest --update-db
+
+Why you should do it regularly:
+https://github.com/browserslist/browserslist#browsers-data-updating
+event - compiled successfully in 3.4s (1024 modules)
+wait  - compiling /...
+event - compiled successfully in 785 ms (1384 modules)

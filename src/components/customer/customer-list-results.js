@@ -235,7 +235,7 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                                 justifyContent: 'center',
                                 alignItems: 'center',
                               }}
-                            href="http://localhost:3000/settings">
+                            href="http://churchadmin.ddns.net:3000/settings">
                               <RemoveRedEyeIcon style={{color: 'white', width: 18}}/>
                             </a>
                       </div>
@@ -259,7 +259,7 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                               justifyContent: 'center',
                               alignItems: 'center',
                               }}
-                            href="http://localhost:3000/cadastro">
+                            href="http://churchadmin.ddns.net:3000/cadastro">
                             <EditIcon style={{color: 'white', width: 18}} />
                           </a>
                       </div>

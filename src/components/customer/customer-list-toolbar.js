@@ -46,7 +46,7 @@ export const CustomerListToolbar = function (props) {
             </Button>
           </a>
          
-          <a href="http://localhost:3000/cadastro">
+          <a href="http://churchadmin.ddns.net:3000/cadastro">
             <Button
               color="primary"
               variant="contained"
