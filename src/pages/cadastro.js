@@ -38,7 +38,7 @@ const Cadastro = function () {
     const handleChange = (event) => {
         const { name, value } = event.target;
         value = name === "numero" || name === "igrejaID" ? parseInt(value) : value;
-        console.log(value);
+
         setFormValue((prevState) => {
             return {
                 ...prevState,
@@ -54,7 +54,6 @@ const Cadastro = function () {
           });
 
         let membro = JSON.parse(await localStorage.getItem("current"))
-    
         if (membro) {
             setFormValue({
                 matricula: membro.matricula,
@@ -77,7 +76,7 @@ const Cadastro = function () {
                 estado: membro.estado,
                 igrejaID: membro.igrejaID,
                 cargoIgreja: membro.cargoIgreja,
-                dataBatismoAguas: membro.batismo === "sim" ? membro.dataBatismoAguas : "",
+                dataBatismoAguas: membro.dataBatismoAguas,
                 status: membro.status
             })
             setUpdateMode(true)
@@ -108,7 +107,8 @@ const Cadastro = function () {
         if(!invalid){
             try {
                 if (updateMode) {
-                    console.log(">>>>>>> formValue", formValue)
+                    formValue.dataBatismoAguas = formValue.batismo === "nao" ? "" : formValue.dataBatismoAguas
+
                     await axios.put(baseURL_UPDATE, formValue, { headers })
                         .then(response => { console.log(response.data) });
                     document.location.reload(true)

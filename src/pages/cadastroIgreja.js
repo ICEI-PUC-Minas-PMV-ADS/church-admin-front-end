@@ -32,7 +32,7 @@ const CadastroIgreja = function () {
     const handleChange = (event) => {
         const { name, value } = event.target;
         value = name === "numero" ? parseInt(value) : value;
-        console.log(value)
+
         setFormValue((prevState) => {
             return {
                 ...prevState,
