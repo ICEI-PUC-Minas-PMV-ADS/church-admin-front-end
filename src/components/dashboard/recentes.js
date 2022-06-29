@@ -95,18 +95,8 @@ export const Recentes = function (props) {
                 <TableCell>
                   Email
                 </TableCell>
-                <TableCell sortDirection="desc">
-                  <Tooltip
-                    enterDelay={300}
-                    title="Sort"
-                  >
-                    <TableSortLabel
-                      active
-                      direction="desc"
-                    >
-                      Aniverário
-                    </TableSortLabel>
-                  </Tooltip>
+                <TableCell>
+                  Aniverário
                 </TableCell>
                 <TableCell>
                   Telefone

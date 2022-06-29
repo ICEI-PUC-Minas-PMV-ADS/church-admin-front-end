@@ -1,5 +1,5 @@
 import { Avatar, Box, Card, CardContent, Grid, Typography } from '@mui/material';
-import ApartmentIcon from '@mui/icons-material/Apartment';
+import InvertColorsIcon from '@mui/icons-material/InvertColors';
 
 export const TotalBatismo = function(props) {
   return  (
@@ -33,7 +33,7 @@ export const TotalBatismo = function(props) {
                 width: 56
               }}
             >
-              <ApartmentIcon />
+              <InvertColorsIcon />
             </Avatar>
           </Grid>
         </Grid>

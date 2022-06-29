@@ -1,5 +1,5 @@
 import { Avatar, Card, CardContent, Grid, Typography } from '@mui/material';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import InvertColorsOffIcon from '@mui/icons-material/InvertColorsOff';
 import {useEffect, useState} from 'react';
 
 export const NaoBatizados = function (props) {
@@ -34,7 +34,7 @@ export const NaoBatizados = function (props) {
                 width: 56
               }}
             >
-              <AttachMoneyIcon />
+              <InvertColorsOffIcon />
             </Avatar>
           </Grid>
         </Grid>
